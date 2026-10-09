@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | AttendX</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendX</h2>
+                <p>Student Attendance Management</p>
+            </div>
+        </a>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-secondary">
+                ← Back to Dashboard
+            </a>
+
+            <button id="themeToggle"
+                    class="btn btn-secondary"
+                    type="button">
+                🌙 / ☀️ Theme
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <p class="sidebar-heading">MAIN MENU</p>
+
+        <a href="{{ url_for('dashboard') }}" class="sidebar-link">
+            <span class="sidebar-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('students_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="{{ url_for('attendance_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📅</span>
+            <span>Attendance</span>
+        </a>
+
+        <a href="{{ url_for('reports_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📈</span>
+            <span>Reports</span>
+        </a>
+
+        <p class="sidebar-heading sidebar-heading-secondary">
+            PREFERENCES
+        </p>
+
+        <a href="{{ url_for('account_page') }}"
+           class="sidebar-link active">
+            <span class="sidebar-icon">👤</span>
+            <span>My Account</span>
+        </a>
+
+        <a href="{{ url_for('settings_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-icon">A</div>
+            <div>
+                <strong>AttendX</strong>
+                <p>Attendance Manager</p>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">YOUR PROFILE</p>
+                <h1>My Account 👤</h1>
+                <p class="muted">
+                    View your profile and learn more about your workspace.
+                </p>
+            </div>
+        </section>
+
+        <!-- PROFILE CARD -->
+        <section class="panel account-profile">
+
+            <div class="profile-banner"></div>
+
+            <div class="profile-content">
+
+                <div class="profile-avatar">A</div>
+
+                <div class="profile-information">
+                    <h2>Administrator</h2>
+                    <p class="muted">AttendX Administrator</p>
+
+                    <span class="profile-badge">
+                        ✓ Active Profile
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ACCOUNT INFORMATION -->
+        <section class="panel">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Account Information</h2>
+                    <p class="muted">
+                        General information about your account.
+                    </p>
+                </div>
+            </div>
+
+            <div class="account-info-grid">
+
+                <div class="account-info-item">
+                    <span class="info-icon">👤</span>
+                    <div>
+                        <p class="info-label">Display Name</p>
+                        <h3>Administrator</h3>
+                    </div>
+                </div>
+
+                <div class="account-info-item">
+                    <span class="info-icon">💼</span>
+                    <div>
+                        <p class="info-label">Role</p>
+                        <h3>Administrator</h3>
+                    </div>
+                </div>
+
+                <div class="account-info-item">
+                    <span class="info-icon">🎓</span>
+                    <div>
+                        <p class="info-label">Workspace</p>
+                        <h3>Student Management</h3>
+                    </div>
+                </div>
+
+                <div class="account-info-item">
+                    <span class="info-icon">✨</span>
+                    <div>
+                        <p class="info-label">Account Status</p>
+                        <h3 class="account-status">Active</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ABOUT ATTENDX -->
+        <section class="panel about-card">
+
+            <div class="about-icon">🎓</div>
+
+            <div>
+                <h2>About AttendX</h2>
+
+                <p>
+                    AttendX is a student attendance management application
+                    designed to make everyday attendance activities simple
+                    and organized.
+                </p>
+
+                <p>
+                    It helps users manage student information, record daily
+                    attendance, and review attendance reports through a
+                    clear and easy-to-use interface.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- QUICK LINKS -->
+        <section class="panel">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Quick Access</h2>
+                    <p class="muted">
+                        Navigate to the main features of AttendX.
+                    </p>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+
+                <a href="{{ url_for('students_page') }}"
+                   class="quick-action">
+                    <span>👨‍🎓</span>
+                    <strong>Students</strong>
+                    <small>View and manage student information.</small>
+                </a>
+
+                <a href="{{ url_for('attendance_page') }}"
+                   class="quick-action">
+                    <span>📅</span>
+                    <strong>Attendance</strong>
+                    <small>Access daily attendance records.</small>
+                </a>
+
+                <a href="{{ url_for('reports_page') }}"
+                   class="quick-action">
+                    <span>📈</span>
+                    <strong>Reports</strong>
+                    <small>Review attendance summaries.</small>
+                </a>
+
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <p>AttendX · Making attendance management simpler.</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

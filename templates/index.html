@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendX | Dashboard</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- TOP HEADER -->
+    <header class="topbar">
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendX</h2>
+                <p>Student Attendance Management</p>
+            </div>
+        </a>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('export_csv') }}" class="btn btn-secondary">
+                Export CSV
+            </a>
+
+            <button id="themeToggle" class="btn btn-secondary" type="button">
+                🌙 / ☀️ Theme
+            </button>
+        </div>
+    </header>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <p class="sidebar-heading">MAIN MENU</p>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="sidebar-link active">
+            <span class="sidebar-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('students_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="{{ url_for('attendance_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📅</span>
+            <span>Attendance</span>
+        </a>
+
+        <a href="{{ url_for('reports_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📈</span>
+            <span>Reports</span>
+        </a>
+
+        <p class="sidebar-heading sidebar-heading-secondary">
+            PREFERENCES
+        </p>
+
+        <a href="{{ url_for('account_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">👤</span>
+            <span>My Account</span>
+        </a>
+
+        <a href="{{ url_for('settings_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-icon">A</div>
+            <div>
+                <strong>AttendX</strong>
+                <p>Attendance Manager</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">OVERVIEW</p>
+                <h1>Welcome to AttendX 👋</h1>
+                <p class="muted">
+                    Manage students and track attendance in one place.
+                </p>
+            </div>
+
+            <div class="today-date">
+                <span class="muted">Selected Date</span>
+                <strong>{{ selected_date }}</strong>
+            </div>
+        </section>
+
+        <!-- DATE SELECTOR -->
+        <section class="panel">
+            <form method="GET"
+                  action="{{ url_for('dashboard') }}"
+                  class="form-row">
+
+                <div class="form-group">
+                    <label for="attendanceDate">Attendance Date</label>
+                    <input
+                        type="date"
+                        id="attendanceDate"
+                        name="date"
+                        value="{{ selected_date }}"
+                        max="{{ today }}"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    View Attendance
+                </button>
+            </form>
+
+            <div class="date-chips">
+                {% for day in recorded_dates %}
+                    <a href="{{ url_for('dashboard', date=day) }}"
+                       class="date-chip {% if day == selected_date %}active{% endif %}">
+                        {{ day }}
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🎓</div>
+                <p class="stat-label">Total Students</p>
+                <h2>{{ total }}</h2>
+                <p class="stat-note">Registered students</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <p class="stat-label">Present</p>
+                <h2>{{ present }}</h2>
+                <p class="stat-note">Present on selected date</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <p class="stat-label">Absent</p>
+                <h2>{{ absent }}</h2>
+                <p class="stat-note">Absent on selected date</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <p class="stat-label">Attendance Rate</p>
+                <h2>{{ daily_percentage }}%</h2>
+                <p class="stat-note">For selected date</p>
+            </div>
+
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Quick Actions</h2>
+                    <p class="muted">
+                        Quickly access common tasks.
+                    </p>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <a href="{{ url_for('students_page') }}"
+                   class="quick-action">
+                    <span>👨‍🎓</span>
+                    <strong>Manage Students</strong>
+                    <small>Add or remove student records</small>
+                </a>
+
+                <a href="{{ url_for('attendance_page', date=selected_date) }}"
+                   class="quick-action">
+                    <span>📅</span>
+                    <strong>Mark Attendance</strong>
+                    <small>Record student attendance</small>
+                </a>
+
+                <a href="{{ url_for('reports_page') }}"
+                   class="quick-action">
+                    <span>📈</span>
+                    <strong>View Reports</strong>
+                    <small>Review attendance performance</small>
+                </a>
+            </div>
+        </section>
+
+        <!-- ATTENDANCE TABLE -->
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Student Attendance</h2>
+                    <p class="muted">
+                        Attendance records for {{ selected_date }}
+                    </p>
+                </div>
+
+                <div class="search-wrapper">
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search by name or roll number..."
+                        aria-label="Search students"
+                    >
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>Roll Number</th>
+                            <th>Student Name</th>
+                            <th>Status</th>
+                            <th>Overall Attendance</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for student in students %}
+                        <tr class="student-row">
+                            <td class="roll-cell">
+                                {{ student.roll }}
+                            </td>
+
+                            <td class="name-cell">
+                                {{ student.name }}
+                            </td>
+
+                            <td>
+                                {% if student.today_status == 'Present' %}
+                                    <span class="status-badge status-present">
+                                        Present
+                                    </span>
+                                {% elif student.today_status == 'Absent' %}
+                                    <span class="status-badge status-absent">
+                                        Absent
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge status-unmarked">
+                                        Not Marked
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <strong>{{ student.history_percentage }}%</strong>
+
+                                <div class="mini-progress">
+                                    <div class="mini-progress-fill"
+                                         style="--progress: {{ student.history_percentage }}%;">
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a href="{{ url_for('attendance_page', date=selected_date) }}"
+                                   class="btn btn-small btn-secondary">
+                                    Manage
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                No students found. Add students to get started.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="noResults" class="empty-state" hidden>
+                No students match your search.
+            </p>
+        </section>
+
+        <footer class="footer">
+            <p>AttendX · Student Attendance Management System</p>
+        </footer>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

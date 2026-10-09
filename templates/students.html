@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendX | Students</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h1>Attend<span>X</span></h1>
+                <p>Student Attendance Management System</p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button id="themeToggle" class="theme-toggle" type="button">
+                ☀️ Light Mode
+            </button>
+
+            <a href="{{ url_for('export_csv') }}" class="export-button">
+                ⬇ Export CSV
+            </a>
+        </div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="panel date-chips" aria-label="Main navigation">
+        <a class="date-chip" href="{{ url_for('dashboard') }}">🏠 Dashboard</a>
+        <a class="date-chip active" href="{{ url_for('students_page') }}">👨‍🎓 Students</a>
+        <a class="date-chip" href="{{ url_for('attendance_page') }}">📅 Attendance</a>
+        <a class="date-chip" href="{{ url_for('reports_page') }}">📊 Reports</a>
+        <a class="date-chip" href="{{ url_for('account_page') }}">👤 My Account</a>
+        <a class="date-chip" href="{{ url_for('settings_page') }}">⚙️ Settings</a>
+    </nav>
+
+    <!-- PAGE HEADING -->
+    <section class="welcome-section">
+        <div>
+            <p class="eyebrow">STUDENT MANAGEMENT</p>
+            <h2>Students 👨‍🎓</h2>
+            <p class="welcome-description">
+                Add, search, and manage your registered students.
+            </p>
+        </div>
+
+        <div class="date-display">
+            <span>Total Students</span>
+            <strong>{{ total }}</strong>
+        </div>
+    </section>
+
+    <!-- ADD STUDENT -->
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h3>➕ Add New Student</h3>
+                <p>Enter the student's name and roll number.</p>
+            </div>
+        </div>
+
+        <form action="{{ url_for('add_student') }}"
+              method="POST"
+              class="add-student-form">
+
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text"
+                       id="studentName"
+                       name="name"
+                       placeholder="Enter student name"
+                       maxlength="100"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="rollNumber">Roll Number</label>
+                <input type="text"
+                       id="rollNumber"
+                       name="roll"
+                       placeholder="Enter roll number"
+                       maxlength="30"
+                       required>
+            </div>
+
+            <input type="hidden" name="return_to" value="students">
+
+            <button type="submit" class="primary-button add-button">
+                + Add Student
+            </button>
+        </form>
+    </section>
+
+    <!-- STUDENT TABLE -->
+    <section class="panel students-panel">
+
+        <div class="section-heading students-heading">
+            <div>
+                <h3>📋 Student Directory</h3>
+                <p>Search students by name or roll number.</p>
+            </div>
+
+            <div class="search-box">
+                <span>🔎</span>
+                <input type="search"
+                       id="searchInput"
+                       placeholder="Search students..."
+                       autocomplete="off">
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                        <th>Present Days</th>
+                        <th>Absent Days</th>
+                        <th>Attendance %</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                    <tr class="student-row">
+
+                        <td class="roll-cell">
+                            {{ student.roll }}
+                        </td>
+
+                        <td class="name-cell">
+                            <div class="student-name">
+                                {{ student.name }}
+                            </div>
+                        </td>
+
+                        <td>{{ student.history_present }}</td>
+                        <td>{{ student.history_absent }}</td>
+
+                        <td>
+                            <div class="percentage-cell">
+                                <strong>{{ student.history_percentage }}%</strong>
+
+                                <div class="mini-progress-track">
+                                    <div class="mini-progress-fill"
+                                         style="--progress: {{ student.history_percentage }}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <form
+                                action="{{ url_for('delete_student', roll=student.roll) }}"
+                                method="POST"
+                                onsubmit="return confirm('Delete this student and all their attendance history?');">
+
+                                <input type="hidden"
+                                       name="return_to"
+                                       value="students">
+
+                                <button type="submit" class="delete-button">
+                                    🗑 Delete
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-table">
+                            No students registered yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p id="noSearchResults" class="empty-message" hidden>
+                No students match your search.
+            </p>
+        </div>
+
+        <div class="table-footer">
+            <span>
+                Registered students:
+                <strong>{{ total }}</strong>
+            </span>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <p>AttendX © 2026 | Student Attendance Management System</p>
+        <p>Built with Python, Flask, HTML, CSS and JavaScript</p>
+    </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

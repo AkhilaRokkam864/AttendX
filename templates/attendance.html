@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance | AttendX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendX</h2>
+                <p>Student Attendance Management</p>
+            </div>
+        </div>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('export_csv') }}" class="btn btn-secondary">
+                Export CSV
+            </a>
+            <button id="themeToggle" class="btn btn-secondary" type="button">
+                🌙 / ☀️ Theme
+            </button>
+        </div>
+    </header>
+
+    <nav class="panel date-chips">
+        <a href="{{ url_for('dashboard') }}" class="date-chip">Dashboard</a>
+        <a href="{{ url_for('students_page') }}" class="date-chip">Students</a>
+        <a href="{{ url_for('attendance_page') }}" class="date-chip active">Attendance</a>
+        <a href="{{ url_for('reports_page') }}" class="date-chip">Reports</a>
+        <a href="{{ url_for('account_page') }}" class="date-chip">My Account</a>
+        <a href="{{ url_for('settings_page') }}" class="date-chip">Settings</a>
+    </nav>
+
+    <section class="welcome-section">
+        <div>
+            <p class="eyebrow">ATTENDANCE MANAGEMENT</p>
+            <h1>Mark Attendance</h1>
+            <p class="muted">
+                Select a date and record each student's attendance.
+            </p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <form method="GET" action="{{ url_for('attendance_page') }}"
+              class="form-row">
+            <div class="form-group">
+                <label for="attendanceDate">Select attendance date</label>
+                <input
+                    type="date"
+                    id="attendanceDate"
+                    name="date"
+                    value="{{ selected_date }}"
+                    max="{{ today }}"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                View Date
+            </button>
+        </form>
+
+        <div class="date-chips">
+            {% for day in recorded_dates %}
+                <a
+                    class="date-chip {% if day == selected_date %}active{% endif %}"
+                    href="{{ url_for('attendance_page', date=day) }}"
+                >
+                    {{ day }}
+                </a>
+            {% else %}
+                <span class="muted">No previous attendance dates available.</span>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <div class="stat-card">
+            <p class="stat-label">Total Students</p>
+            <h2>{{ total }}</h2>
+            <p class="stat-note">Registered students</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Present</p>
+            <h2>{{ present }}</h2>
+            <p class="stat-note">Present on selected date</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Absent</p>
+            <h2>{{ absent }}</h2>
+            <p class="stat-note">Absent on selected date</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Not Marked</p>
+            <h2>{{ unmarked }}</h2>
+            <p class="stat-note">Awaiting attendance</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>Student Attendance</h2>
+                <p class="muted">Selected date: {{ selected_date }}</p>
+            </div>
+
+            <div class="search-wrapper">
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search name or roll number..."
+                    aria-label="Search students"
+                >
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                        <th>Overall Attendance</th>
+                        <th>Today's Status</th>
+                        <th>Update Attendance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for student in students %}
+                    <tr class="student-row">
+                        <td class="roll-cell">{{ student.roll }}</td>
+                        <td class="name-cell">{{ student.name }}</td>
+
+                        <td>
+                            <strong>{{ student.history_percentage }}%</strong>
+                            <div class="mini-progress">
+                                <div
+                                    class="mini-progress-fill"
+                                    style="--progress: {{ student.history_percentage }}%;"
+                                ></div>
+                            </div>
+                        </td>
+
+                        <td>
+                            {% if student.today_status == 'Present' %}
+                                <span class="status-badge status-present">
+                                    Present
+                                </span>
+                            {% elif student.today_status == 'Absent' %}
+                                <span class="status-badge status-absent">
+                                    Absent
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-unmarked">
+                                    Not Marked
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('mark_attendance', roll=student.roll) }}"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="date"
+                                        value="{{ selected_date }}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="Present"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="return_to"
+                                        value="attendance_page"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-success"
+                                        {% if student.today_status == 'Present' %}disabled{% endif %}
+                                    >
+                                        Present
+                                    </button>
+                                </form>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('mark_attendance', roll=student.roll) }}"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="date"
+                                        value="{{ selected_date }}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="Absent"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="return_to"
+                                        value="attendance_page"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-small btn-danger"
+                                        {% if student.today_status == 'Absent' %}disabled{% endif %}
+                                    >
+                                        Absent
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            No students found. Add students from the Students page.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p id="noResults" class="empty-state" hidden>
+            No students match your search.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>AttendX · Student Attendance Management System</p>
+    </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

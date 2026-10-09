@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | AttendX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="app-container">
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendX</h2>
+                <p>Student Attendance Management</p>
+            </div>
+        </div>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('export_csv') }}" class="btn btn-secondary">
+                Export CSV
+            </a>
+            <button id="themeToggle" class="btn btn-secondary" type="button">
+                🌙 / ☀️ Theme
+            </button>
+        </div>
+    </header>
+
+    <nav class="panel date-chips">
+        <a href="{{ url_for('dashboard') }}" class="date-chip">Dashboard</a>
+        <a href="{{ url_for('students_page') }}" class="date-chip">Students</a>
+        <a href="{{ url_for('attendance_page') }}" class="date-chip">Attendance</a>
+        <a href="{{ url_for('reports_page') }}" class="date-chip active">Reports</a>
+        <a href="{{ url_for('account_page') }}" class="date-chip">My Account</a>
+        <a href="{{ url_for('settings_page') }}" class="date-chip">Settings</a>
+    </nav>
+
+    <section class="welcome-section">
+        <div>
+            <p class="eyebrow">PERFORMANCE OVERVIEW</p>
+            <h1>Attendance Reports</h1>
+            <p class="muted">
+                Review attendance statistics and individual student performance.
+            </p>
+        </div>
+
+        <a href="{{ url_for('export_csv') }}" class="btn btn-primary">
+            Download CSV Report
+        </a>
+    </section>
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <p class="stat-label">Total Students</p>
+            <h2>{{ total }}</h2>
+            <p class="stat-note">Registered students</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Total Present Records</p>
+            <h2>{{ total_present }}</h2>
+            <p class="stat-note">Recorded present entries</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Total Absent Records</p>
+            <h2>{{ total_absent }}</h2>
+            <p class="stat-note">Recorded absent entries</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Overall Attendance</p>
+            <h2>{{ overall_percentage }}%</h2>
+            <p class="stat-note">Across all recorded sessions</p>
+        </div>
+
+    </section>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>Attendance Summary</h2>
+                <p class="muted">
+                    Summary of all attendance records stored in the system.
+                </p>
+            </div>
+        </div>
+
+        <div class="progress-track">
+            <div
+                class="progress-fill"
+                style="--progress: {{ overall_percentage }}%;"
+            ></div>
+        </div>
+
+        <div class="report-summary">
+            <p>
+                <strong>{{ total_sessions }}</strong>
+                recorded attendance dates
+            </p>
+            <p>
+                <strong>{{ total_present + total_absent }}</strong>
+                marked attendance entries
+            </p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>Student-wise Report</h2>
+                <p class="muted">
+                    Compare each student's recorded attendance percentage.
+                </p>
+            </div>
+
+            <div class="search-wrapper">
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search student..."
+                    aria-label="Search students"
+                >
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                        <th>Present Days</th>
+                        <th>Absent Days</th>
+                        <th>Attendance Percentage</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for student in students %}
+                    <tr class="student-row">
+                        <td class="roll-cell">{{ student.roll }}</td>
+                        <td class="name-cell">{{ student.name }}</td>
+                        <td>{{ student.history_present }}</td>
+                        <td>{{ student.history_absent }}</td>
+
+                        <td>
+                            <strong>{{ student.history_percentage }}%</strong>
+                        </td>
+
+                        <td>
+                            <div class="mini-progress">
+                                <div
+                                    class="mini-progress-fill"
+                                    style="--progress: {{ student.history_percentage }}%;"
+                                ></div>
+                            </div>
+
+                            {% if student.history_percentage >= 75 %}
+                                <span class="status-badge status-present">
+                                    Good
+                                </span>
+                            {% elif student.history_percentage >= 50 %}
+                                <span class="status-badge status-unmarked">
+                                    Average
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-absent">
+                                    Needs Improvement
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            No student records available.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p id="noResults" class="empty-state" hidden>
+            No students match your search.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>AttendX · Student Attendance Management System</p>
+    </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

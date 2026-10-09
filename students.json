@@ -1,0 +1,182 @@
+[
+    {
+        "name": "Aarav Sharma",
+        "roll": "STU001",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Ananya Reddy",
+        "roll": "STU002",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Absent",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Rahul Verma",
+        "roll": "STU003",
+        "attendance": {
+            "2026-10-07": "Absent",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Priya Nair",
+        "roll": "STU004",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Arjun Kumar",
+        "roll": "STU005",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Sneha Patel",
+        "roll": "STU006",
+        "attendance": {
+            "2026-10-07": "Absent",
+            "2026-10-08": "Present",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Karthik Rao",
+        "roll": "STU007",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Divya Menon",
+        "roll": "STU008",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Absent",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Vikram Singh",
+        "roll": "STU009",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Meera Iyer",
+        "roll": "STU010",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Aditya Gupta",
+        "roll": "STU011",
+        "attendance": {
+            "2026-10-07": "Absent",
+            "2026-10-08": "Absent",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Pooja Desai",
+        "roll": "STU012",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Rohan Das",
+        "roll": "STU013",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Absent",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Ishita Bose",
+        "roll": "STU014",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Varun Reddy",
+        "roll": "STU015",
+        "attendance": {
+            "2026-10-07": "Absent",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Kavya Shah",
+        "roll": "STU016",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Nikhil Jain",
+        "roll": "STU017",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Sanjana Rao",
+        "roll": "STU018",
+        "attendance": {
+            "2026-10-07": "Absent",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    },
+    {
+        "name": "Abhishek Roy",
+        "roll": "STU019",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Absent"
+        }
+    },
+    {
+        "name": "Tanvi Kulkarni",
+        "roll": "STU020",
+        "attendance": {
+            "2026-10-07": "Present",
+            "2026-10-08": "Present",
+            "2026-10-09": "Present"
+        }
+    }
+]

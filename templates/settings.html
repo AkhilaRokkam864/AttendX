@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | AttendX</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendX</h2>
+                <p>Student Attendance Management</p>
+            </div>
+        </a>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-secondary">
+                ← Back to Dashboard
+            </a>
+
+            <button id="themeToggle"
+                    class="btn btn-secondary"
+                    type="button">
+                🌙 / ☀️ Theme
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <p class="sidebar-heading">MAIN MENU</p>
+
+        <a href="{{ url_for('dashboard') }}" class="sidebar-link">
+            <span class="sidebar-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('students_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="{{ url_for('attendance_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📅</span>
+            <span>Attendance</span>
+        </a>
+
+        <a href="{{ url_for('reports_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">📈</span>
+            <span>Reports</span>
+        </a>
+
+        <p class="sidebar-heading sidebar-heading-secondary">
+            PREFERENCES
+        </p>
+
+        <a href="{{ url_for('account_page') }}" class="sidebar-link">
+            <span class="sidebar-icon">👤</span>
+            <span>My Account</span>
+        </a>
+
+        <a href="{{ url_for('settings_page') }}"
+           class="sidebar-link active">
+            <span class="sidebar-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-icon">A</div>
+            <div>
+                <strong>AttendX</strong>
+                <p>Attendance Manager</p>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">PERSONALIZE YOUR EXPERIENCE</p>
+                <h1>Settings ⚙️</h1>
+                <p class="muted">
+                    Customize the appearance and preferences of AttendX.
+                </p>
+            </div>
+        </section>
+
+        <!-- APPEARANCE SETTINGS -->
+        <section class="panel">
+
+            <div class="settings-section-title">
+                <div class="settings-icon">🎨</div>
+
+                <div>
+                    <h2>Appearance</h2>
+                    <p class="muted">
+                        Choose the look that feels comfortable for you.
+                    </p>
+                </div>
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-description">
+                    <h3>Display Theme</h3>
+                    <p>
+                        Switch between light and dark appearance.
+                    </p>
+                </div>
+
+                <button id="settingsThemeToggle"
+                        class="btn btn-primary"
+                        type="button">
+                    🌙 / ☀️ Change Theme
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- GENERAL PREFERENCES -->
+        <section class="panel">
+
+            <div class="settings-section-title">
+                <div class="settings-icon">🛠️</div>
+
+                <div>
+                    <h2>General Preferences</h2>
+                    <p class="muted">
+                        Useful options for your daily activities.
+                    </p>
+                </div>
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-description">
+                    <h3>Attendance Management</h3>
+                    <p>
+                        Open the attendance page to review and mark
+                        student attendance.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('attendance_page') }}"
+                   class="btn btn-secondary">
+                    Open Attendance
+                </a>
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-description">
+                    <h3>Student Management</h3>
+                    <p>
+                        View student information and manage student records.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('students_page') }}"
+                   class="btn btn-secondary">
+                    View Students
+                </a>
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-description">
+                    <h3>Attendance Reports</h3>
+                    <p>
+                        Review attendance summaries and performance.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('reports_page') }}"
+                   class="btn btn-secondary">
+                    View Reports
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- HELP AND SUPPORT -->
+        <section class="panel">
+
+            <div class="settings-section-title">
+                <div class="settings-icon">💡</div>
+
+                <div>
+                    <h2>Help & Support</h2>
+                    <p class="muted">
+                        Learn more about using AttendX.
+                    </p>
+                </div>
+            </div>
+
+            <div class="help-grid">
+
+                <div class="help-card">
+                    <span>👨‍🎓</span>
+                    <h3>Managing Students</h3>
+                    <p>
+                        Use the Students section to view and organize
+                        student information.
+                    </p>
+                </div>
+
+                <div class="help-card">
+                    <span>📅</span>
+                    <h3>Marking Attendance</h3>
+                    <p>
+                        Select a date and record each student's
+                        attendance status.
+                    </p>
+                </div>
+
+                <div class="help-card">
+                    <span>📊</span>
+                    <h3>Understanding Reports</h3>
+                    <p>
+                        Visit Reports to review attendance summaries
+                        and trends.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ABOUT -->
+        <section class="panel settings-about">
+
+            <div class="settings-icon">✨</div>
+
+            <div>
+                <h2>AttendX</h2>
+                <p>
+                    A simple and user-friendly student attendance
+                    management application.
+                </p>
+                <span class="muted">Thank you for using AttendX!</span>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <p>AttendX · Making attendance management simpler.</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+    // Use the existing theme toggle from the header.
+    const settingsThemeToggle =
+        document.getElementById("settingsThemeToggle");
+
+    const headerThemeToggle =
+        document.getElementById("themeToggle");
+
+    if (settingsThemeToggle && headerThemeToggle) {
+        settingsThemeToggle.addEventListener("click", function () {
+            headerThemeToggle.click();
+        });
+    }
+</script>
+
+</body>
+</html>
